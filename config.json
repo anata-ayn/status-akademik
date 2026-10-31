@@ -1,0 +1,96 @@
+{
+  "model": "nvidia/nemotron-3-ultra-550b-a55b",
+  "temperature": 0,
+  "max_tokens": 160,
+  "labels": [
+    "Aman",
+    "Waspada",
+    "Berisiko"
+  ],
+  "system_prompt": "Kamu adalah sistem klasifikasi status akademik mahasiswa.\nStatus ditentukan oleh SATU skor gabungan yang dihitung dari angka-angka mahasiswa (rumus ini dipelajari dari data latih):\n\nSkor = 30 x IPK + Kehadiran(%) + Jam belajar per minggu + Tugas terkumpul(%) / 2 + Nilai UTS / 2\n\n'Aktif organisasi' tidak berpengaruh, abaikan.\n- Skor < 249  -> Berisiko\n- 249 <= Skor < 267 -> Waspada\n- Skor >= 267 -> Aman\n\nCara menjawab: tulis perhitungan skor SINGKAT (satu baris, hitung dengan teliti), lalu baris terakhir persis berformat 'Status: <Aman|Waspada|Berisiko>'.",
+  "few_shot": [
+    {
+      "data": {
+        "ipk": 4.0,
+        "kehadiran": 67,
+        "jam_belajar": 9,
+        "tugas_terkumpul": 88,
+        "nilai_uts": 93,
+        "aktif_organisasi": "Tidak"
+      },
+      "label": "Aman",
+      "jawaban": "30x4=120.0 + 67 + 9 + 88/2=44.0 + 93/2=46.5 = 286.5\nSkor 286.5 (>= 267) -> Aman\nStatus: Aman"
+    },
+    {
+      "data": {
+        "ipk": 3.27,
+        "kehadiran": 76,
+        "jam_belajar": 6,
+        "tugas_terkumpul": 80,
+        "nilai_uts": 61,
+        "aktif_organisasi": "Tidak"
+      },
+      "label": "Waspada",
+      "jawaban": "30x3.27=98.1 + 76 + 6 + 80/2=40.0 + 61/2=30.5 = 250.6\nSkor 250.6 (249 sampai < 267) -> Waspada\nStatus: Waspada"
+    },
+    {
+      "data": {
+        "ipk": 2.55,
+        "kehadiran": 86,
+        "jam_belajar": 4,
+        "tugas_terkumpul": 75,
+        "nilai_uts": 56,
+        "aktif_organisasi": "Tidak"
+      },
+      "label": "Berisiko",
+      "jawaban": "30x2.55=76.5 + 86 + 4 + 75/2=37.5 + 56/2=28.0 = 232.0\nSkor 232.0 (< 249) -> Berisiko\nStatus: Berisiko"
+    },
+    {
+      "data": {
+        "ipk": 3.73,
+        "kehadiran": 83,
+        "jam_belajar": 7,
+        "tugas_terkumpul": 78,
+        "nilai_uts": 100,
+        "aktif_organisasi": "Tidak"
+      },
+      "label": "Aman",
+      "jawaban": "30x3.73=111.9 + 83 + 7 + 78/2=39.0 + 100/2=50.0 = 290.9\nSkor 290.9 (>= 267) -> Aman\nStatus: Aman"
+    },
+    {
+      "data": {
+        "ipk": 2.89,
+        "kehadiran": 95,
+        "jam_belajar": 7,
+        "tugas_terkumpul": 87,
+        "nilai_uts": 55,
+        "aktif_organisasi": "Ya"
+      },
+      "label": "Waspada",
+      "jawaban": "30x2.89=86.7 + 95 + 7 + 87/2=43.5 + 55/2=27.5 = 259.7\nSkor 259.7 (249 sampai < 267) -> Waspada\nStatus: Waspada"
+    },
+    {
+      "data": {
+        "ipk": 2.5,
+        "kehadiran": 68,
+        "jam_belajar": 2,
+        "tugas_terkumpul": 98,
+        "nilai_uts": 59,
+        "aktif_organisasi": "Tidak"
+      },
+      "label": "Berisiko",
+      "jawaban": "30x2.5=75.0 + 68 + 2 + 98/2=49.0 + 59/2=29.5 = 223.5\nSkor 223.5 (< 249) -> Berisiko\nStatus: Berisiko"
+    }
+  ],
+  "evaluasi": {
+    "accuracy": 0.84,
+    "f1_macro": 0.8329,
+    "invalid": 0,
+    "n": 200,
+    "waktu_total_detik": 2496.95,
+    "waktu_per_prediksi_detik": 12.485,
+    "f1_dnn_pembanding": 0.8269,
+    "dataset": "dataset_status_akademik.csv (bagian test)",
+    "tanggal": "2026-10-25"
+  }
+}

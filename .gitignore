@@ -1,0 +1,4 @@
+.env
+__pycache__/
+cache_prediksi.json
+.streamlit/secrets.toml
